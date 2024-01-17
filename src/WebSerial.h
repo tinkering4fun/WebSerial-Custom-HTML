@@ -27,7 +27,8 @@ typedef std::function<void(uint8_t *data, size_t len)> RecvMsgHandler;
 class WebSerialClass : public Print {
 
 public:
-    void begin(AsyncWebServer *server, const char* url = "/webserial");
+    void begin(AsyncWebServer *server, const char* url = "/webserial", const char* html = (const char *)WEBSERIAL_HTML, size_t len = WEBSERIAL_HTML_SIZE, bool gzip = true);
+
 
     void msgCallback(RecvMsgHandler _recv);
 

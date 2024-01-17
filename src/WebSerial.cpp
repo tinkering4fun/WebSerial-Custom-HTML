@@ -1,14 +1,14 @@
 #include "WebSerial.h"
 
-
-void WebSerialClass::begin(AsyncWebServer *server, const char* url){
+void WebSerialClass::begin(AsyncWebServer *server, const char* url, const char* html, size_t len, bool gzip){
     _server = server;
     _ws = new AsyncWebSocket("/webserialws");
 
-    _server->on(url, HTTP_GET, [](AsyncWebServerRequest *request){
+    _server->on(url, HTTP_GET, [html, len, gzip](AsyncWebServerRequest *request){
         // Send Webpage
-        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", WEBSERIAL_HTML, WEBSERIAL_HTML_SIZE);
-        response->addHeader("Content-Encoding","gzip");
+        AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", (uint8_t *)html, len);
+        if(gzip)
+			response->addHeader("Content-Encoding","gzip");
         request->send(response);        
     });
 
