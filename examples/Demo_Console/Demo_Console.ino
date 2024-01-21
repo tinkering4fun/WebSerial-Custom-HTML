@@ -147,6 +147,8 @@ void setup() {
     // You may specify your own HTML with begin() ...
     WebSerial.begin(&server, 							// the server
 					"/webserial", 									// URL
+					"",															// User ID 
+					"",															// Password
 					WEBSERIAL_CONSOLE_HTML, 				// HTML char stream
 					sizeof(WEBSERIAL_CONSOLE_HTML), // size of dto
 					false							// unzipped

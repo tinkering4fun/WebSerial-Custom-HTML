@@ -27,7 +27,9 @@ typedef std::function<void(uint8_t *data, size_t len)> RecvMsgHandler;
 class WebSerialClass : public Print {
 
 public:
-    void begin(AsyncWebServer *server, const char* url = "/webserial", const char* html = (const char *)WEBSERIAL_HTML, size_t len = WEBSERIAL_HTML_SIZE, bool gzip = true);
+    void begin(AsyncWebServer *server, const char* url = "/webserial", 
+										 const char* username = "", const char* password = "", 
+										 const char* html = (const char *)WEBSERIAL_HTML, size_t len = WEBSERIAL_HTML_SIZE, bool gzip = true);
 
 
     void msgCallback(RecvMsgHandler _recv);
@@ -42,6 +44,10 @@ private:
     AsyncWebSocket *_ws;
     RecvMsgHandler _RecvFunc = NULL;
     
+		String _username = "";
+		String _password = "";
+		bool _authRequired = false;
+        
     #if defined(WEBSERIAL_DEBUG)
         void DEBUG_WEB_SERIAL(const char* message);
     #endif

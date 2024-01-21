@@ -63,7 +63,7 @@ const char WEBSERIAL_CONSOLE_HTML[]  PROGMEM = R"text(
 			      Commands may typed into the console window below, followed by Enter</i></p>
 		</div>
     <div class="section" >
-			<textarea id="console"  cols="80" rows="25"   
+			<textarea id="console"  cols="80" rows="25" spellcheck="false"
 								onkeydown = "if (event.keyCode == 13)  handleEnter();">
 			</textarea> 
 		</div>

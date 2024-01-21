@@ -1,10 +1,29 @@
 #include "WebSerial.h"
 
-void WebSerialClass::begin(AsyncWebServer *server, const char* url, const char* html, size_t len, bool gzip){
+void WebSerialClass::begin(AsyncWebServer *server, const char* url,  
+							const char* username, const char* password, 
+							const char* html, size_t len, bool gzip){
     _server = server;
+    
+		if(strlen(username) > 0){
+        _authRequired = true;
+        _username = username;
+        _password = password;
+    }else{
+        _authRequired = false;
+        _username = "";
+        _password = "";
+    }
+    
     _ws = new AsyncWebSocket("/webserialws");
 
-    _server->on(url, HTTP_GET, [html, len, gzip](AsyncWebServerRequest *request){
+    _server->on(url, HTTP_GET, [&, html, len, gzip](AsyncWebServerRequest *request){
+			
+				if(_authRequired){
+					if(!request->authenticate(_username.c_str(), _password.c_str())){
+						return request->requestAuthentication();
+					}
+				}
         // Send Webpage
         AsyncWebServerResponse *response = request->beginResponse_P(200, "text/html", (uint8_t *)html, len);
         if(gzip)
