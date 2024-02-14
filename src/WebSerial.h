@@ -33,6 +33,7 @@ public:
 
 
     void msgCallback(RecvMsgHandler _recv);
+    int getConnections();
 
     // Print
 
@@ -47,7 +48,8 @@ private:
 		String _username = "";
 		String _password = "";
 		bool _authRequired = false;
-        
+		int _clientConnections = 0;
+      
     #if defined(WEBSERIAL_DEBUG)
         void DEBUG_WEB_SERIAL(const char* message);
     #endif

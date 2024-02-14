@@ -33,10 +33,12 @@ void WebSerialClass::begin(AsyncWebServer *server, const char* url,
 
     _ws->onEvent([&](AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t *data, size_t len) -> void {
         if(type == WS_EVT_CONNECT){
+						_clientConnections++;
             #if defined(DEBUG)
                 DEBUG_WEB_SERIAL("Client connection received");
             #endif
         } else if(type == WS_EVT_DISCONNECT){
+						_clientConnections--;
             #if defined(DEBUG)
                 DEBUG_WEB_SERIAL("Client disconnected");
             #endif
@@ -59,6 +61,10 @@ void WebSerialClass::begin(AsyncWebServer *server, const char* url,
 
 void WebSerialClass::msgCallback(RecvMsgHandler _recv){
     _RecvFunc = _recv;
+}
+
+int WebSerialClass::getConnections(){
+	return(_clientConnections);
 }
 
 // Print
